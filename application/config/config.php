@@ -245,7 +245,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'bharat';
+$config['encryption_key'] = 'pixoloproduction';
 
 /*
 |--------------------------------------------------------------------------
