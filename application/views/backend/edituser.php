@@ -111,6 +111,12 @@
 				  </div>
 				</div>
 				
+				<div class="form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">Points</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control" name="points" value="<?php echo set_value('points',$before->points);?>">
+				  </div>
+				</div>
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">json</label>
 				  <div class="col-sm-4">

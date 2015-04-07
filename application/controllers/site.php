@@ -74,6 +74,7 @@ class Site extends CI_Controller
             $socialid=$this->input->post('socialid');
             $logintype=$this->input->post('logintype');
             $json=$this->input->post('json');
+            $points=$this->input->post('points');
 //            $category=$this->input->post('category');
             
             $config['upload_path'] = './uploads/';
@@ -111,7 +112,7 @@ class Site extends CI_Controller
                 
 			}
             
-			if($this->user_model->create($name,$email,$password,$accesslevel,$status,$socialid,$logintype,$image,$json)==0)
+			if($this->user_model->create($name,$email,$password,$accesslevel,$status,$socialid,$logintype,$image,$json,$points)==0)
 			$data['alerterror']="New user could not be created.";
 			else
 			$data['alertsuccess']="User created Successfully.";
@@ -259,6 +260,7 @@ class Site extends CI_Controller
             $socialid=$this->input->get_post('socialid');
             $logintype=$this->input->get_post('logintype');
             $json=$this->input->get_post('json');
+            $points=$this->input->get_post('points');
 //            $category=$this->input->get_post('category');
             
             $config['upload_path'] = './uploads/';
@@ -303,7 +305,7 @@ class Site extends CI_Controller
                 $image=$image->image;
             }
             
-			if($this->user_model->edit($id,$name,$email,$password,$accesslevel,$status,$socialid,$logintype,$image,$json)==0)
+			if($this->user_model->edit($id,$name,$email,$password,$accesslevel,$status,$socialid,$logintype,$image,$json,$points)==0)
 			$data['alerterror']="User Editing was unsuccesful";
 			else
 			$data['alertsuccess']="User edited Successfully.";
