@@ -635,13 +635,19 @@ class Site extends CI_Controller
         $elements[2]->field="`predicto_teamgroup`.`predictiongroup`";
         $elements[2]->sort="1";
         $elements[2]->header="Prediction Group";
-        $elements[2]->alias="predictiongroup";
+        $elements[2]->alias="predictiongroupid";
         
         $elements[3]=new stdClass();
         $elements[3]->field="`predicto_teamgroup`.`order`";
         $elements[3]->sort="1";
         $elements[3]->header="Order";
         $elements[3]->alias="order";
+        
+        $elements[2]=new stdClass();
+        $elements[2]->field="`predicto_predictiongroup`.`name`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Prediction Group";
+        $elements[2]->alias="predictiongroup";
         
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
@@ -657,7 +663,7 @@ class Site extends CI_Controller
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_teamgroup`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_teamgroup` LEFT OUTER JOIN `predicto_predictiongroup` ON `predicto_teamgroup`.`predictiongroup`=`predicto_predictiongroup`.`id`");
         $this->load->view("json",$data);
     }
 
@@ -960,19 +966,31 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
         $elements[1]->field="`predicto_predictionteam`.`prediction`";
         $elements[1]->sort="1";
         $elements[1]->header="Prediction";
-        $elements[1]->alias="prediction";
+        $elements[1]->alias="predictionid";
         
         $elements[2]=new stdClass();
         $elements[2]->field="`predicto_predictionteam`.`teamgroup`";
         $elements[2]->sort="1";
         $elements[2]->header="Team Group";
-        $elements[2]->alias="teamgroup";
+        $elements[2]->alias="teamgroupid";
         
         $elements[3]=new stdClass();
         $elements[3]->field="`predicto_predictionteam`.`order`";
         $elements[3]->sort="1";
         $elements[3]->header="Order";
         $elements[3]->alias="order";
+        
+        $elements[4]=new stdClass();
+        $elements[4]->field="`predicto_prediction`.`name`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Prediction";
+        $elements[4]->alias="prediction";
+        
+        $elements[5]=new stdClass();
+        $elements[5]->field="`predicto_teamgroup`.`name`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Team Group";
+        $elements[5]->alias="teamgroup";
         
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
@@ -988,7 +1006,7 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_predictionteam`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_predictionteam` LEFT OUTER JOIN `predicto_prediction` ON `predicto_predictionteam`.`prediction`=`predicto_prediction`.`id` LEFT OUTER JOIN `predicto_teamgroup` ON `predicto_predictionteam`.`teamgroup`=`predicto_teamgroup`.`id`");
         $this->load->view("json",$data);
     }
 
@@ -1104,19 +1122,37 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
         $elements[1]->field="`predicto_userprediction`.`user`";
         $elements[1]->sort="1";
         $elements[1]->header="User";
-        $elements[1]->alias="user";
+        $elements[1]->alias="userid";
         
         $elements[2]=new stdClass();
         $elements[2]->field="`predicto_userprediction`.`teamgroup`";
         $elements[2]->sort="1";
         $elements[2]->header="Team Group";
-        $elements[2]->alias="teamgroup";
+        $elements[2]->alias="teamgroupid";
         
         $elements[3]=new stdClass();
         $elements[3]->field="`predicto_userprediction`.`prediction`";
         $elements[3]->sort="1";
         $elements[3]->header="Prediction";
-        $elements[3]->alias="prediction";
+        $elements[3]->alias="predictionid";
+        
+        $elements[4]=new stdClass();
+        $elements[4]->field="`user`.`name`";
+        $elements[4]->sort="1";
+        $elements[4]->header="User";
+        $elements[4]->alias="user";
+        
+        $elements[5]=new stdClass();
+        $elements[5]->field="`predicto_teamgroup`.`name`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Team Group";
+        $elements[5]->alias="teamgroup";
+        
+        $elements[6]=new stdClass();
+        $elements[6]->field="`predicto_prediction`.`name`";
+        $elements[6]->sort="1";
+        $elements[6]->header="Prediction";
+        $elements[6]->alias="prediction";
         
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
@@ -1132,7 +1168,7 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_userprediction`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_userprediction` LEFT OUTER JOIN `predicto_prediction` ON `predicto_userprediction`.`prediction`=`predicto_prediction`.`id` LEFT OUTER JOIN `user` ON `predicto_userprediction`.`user`=`user`.`id`  LEFT OUTER JOIN `predicto_teamgroup` ON `predicto_userprediction`.`teamgroup`=`predicto_teamgroup`.`id` ");
         $this->load->view("json",$data);
     }
 
@@ -1384,7 +1420,7 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
         $elements[1]->field="`predicto_usershare`.`user`";
         $elements[1]->sort="1";
         $elements[1]->header="User";
-        $elements[1]->alias="user";
+        $elements[1]->alias="userid";
         
         $elements[2]=new stdClass();
         $elements[2]->field="`predicto_usershare`.`sharecontent`";
@@ -1402,7 +1438,19 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
         $elements[4]->field="`predicto_usershare`.`prediction`";
         $elements[4]->sort="1";
         $elements[4]->header="Prediction";
-        $elements[4]->alias="prediction";
+        $elements[4]->alias="predictionid";
+        
+        $elements[5]=new stdClass();
+        $elements[5]->field="`predicto_prediction`.`name`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Prediction";
+        $elements[5]->alias="prediction";
+        
+        $elements[6]=new stdClass();
+        $elements[6]->field="`user`.`name`";
+        $elements[6]->sort="1";
+        $elements[6]->header="User";
+        $elements[6]->alias="user";
         
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
@@ -1418,7 +1466,7 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_usershare`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_usershare` LEFT OUTER JOIN `predicto_prediction` ON `predicto_usershare`.`prediction`=`predicto_prediction`.`id` LEFT OUTER JOIN `user` ON `predicto_usershare`.`user`=`user`.`id`  ");
         $this->load->view("json",$data);
     }
 
@@ -1430,6 +1478,7 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
         $data["title"]="Create usershare";
         $data['user']=$this->user_model->getuserdropdown();
         $data['prediction']=$this->prediction_model->getpredictiondropdown();
+        $data['predictionhash']=$this->predictionhash_model->getpredictionhashdropdown();
         $this->load->view("template",$data);
     }
     public function createusersharesubmit() 
@@ -1446,6 +1495,7 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
             $data["page"]="createusershare";
             $data["title"]="Create usershare";
             $data['user']=$this->user_model->getuserdropdown();
+            $data['predictionhash']=$this->predictionhash_model->getpredictionhashdropdown();
             $data['prediction']=$this->prediction_model->getpredictiondropdown();
             $this->load->view("template",$data);
         }
@@ -1455,7 +1505,8 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
             $sharecontent=$this->input->get_post("sharecontent");
             $total=$this->input->get_post("total");
             $prediction=$this->input->get_post("prediction");
-            if($this->usershare_model->create($user,$sharecontent,$total,$prediction)==0)
+            $predictionhash=$this->input->get_post("predictionhash");
+            if($this->usershare_model->create($user,$sharecontent,$total,$prediction,$predictionhash)==0)
                 $data["alerterror"]="New usershare could not be created.";
             else
                 $data["alertsuccess"]="usershare created Successfully.";
@@ -1470,6 +1521,8 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
         $data["page"]="editusershare";
         $data["title"]="Edit usershare";
         $data['user']=$this->user_model->getuserdropdown();
+        $data['predictionhash']=$this->predictionhash_model->getpredictionhashdropdown();
+        $data['selectedpredictionhash']=$this->usershare_model->getusersharehashbyusershare($this->input->get_post('id'));
         $data['prediction']=$this->prediction_model->getpredictiondropdown();
         $data["before"]=$this->usershare_model->beforeedit($this->input->get("id"));
         $this->load->view("template",$data);
@@ -1500,7 +1553,8 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
             $sharecontent=$this->input->get_post("sharecontent");
             $total=$this->input->get_post("total");
             $prediction=$this->input->get_post("prediction");
-            if($this->usershare_model->edit($id,$user,$sharecontent,$total,$prediction)==0)
+            $predictionhash=$this->input->get_post("predictionhash");
+            if($this->usershare_model->edit($id,$user,$sharecontent,$total,$prediction,$predictionhash)==0)
                 $data["alerterror"]="New usershare could not be Updated.";
             else
                 $data["alertsuccess"]="usershare Updated Successfully.";
@@ -1533,16 +1587,31 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
         $elements[0]->sort="1";
         $elements[0]->header="ID";
         $elements[0]->alias="id";
+        
         $elements[1]=new stdClass();
         $elements[1]->field="`predicto_usersharehash`.`usershare`";
         $elements[1]->sort="1";
         $elements[1]->header="User Share";
         $elements[1]->alias="usershare";
+        
         $elements[2]=new stdClass();
         $elements[2]->field="`predicto_usersharehash`.`predictionhash`";
         $elements[2]->sort="1";
         $elements[2]->header="Prediction Hash";
         $elements[2]->alias="predictionhash";
+        
+        $elements[3]=new stdClass();
+        $elements[3]->field="`predicto_usershare`.`sharecontent`";
+        $elements[3]->sort="1";
+        $elements[3]->header="User Share";
+        $elements[3]->alias="usershare";
+        
+        $elements[2]=new stdClass();
+        $elements[2]->field="`predicto_usersharehash`.`predictionhash`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Prediction Hash";
+        $elements[2]->alias="predictionhash";
+        
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -1550,14 +1619,14 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
         $maxrow=$this->input->get_post("maxrow");
         if($maxrow=="")
         {
-        $maxrow=20;
+            $maxrow=20;
         }
         if($orderby=="")
         {
-        $orderby="id";
-        $orderorder="ASC";
+            $orderby="id";
+            $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_usersharehash`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_usersharehash`  LEFT OUTER JOIN `predicto_usershare` ON `predicto_usersharehash`.`usershare`=`predicto_usershare`.`id` LEFT OUTER JOIN `user` ON `predicto_usershare`.`user`=`user`.`id` ");
         $this->load->view("json",$data);
     }
 
@@ -1681,13 +1750,19 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
         $elements[3]->field="`predicto_userpointlog`.`prediction`";
         $elements[3]->sort="1";
         $elements[3]->header="Prediction";
-        $elements[3]->alias="prediction";
+        $elements[3]->alias="predictionid";
         
         $elements[4]=new stdClass();
         $elements[4]->field="`predicto_userpointlog`.`shareid`";
         $elements[4]->sort="1";
         $elements[4]->header="share ID";
         $elements[4]->alias="shareid";
+        
+        $elements[5]=new stdClass();
+        $elements[5]->field="`predicto_prediction`.`name`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Prediction";
+        $elements[5]->alias="prediction";
         
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
@@ -1703,7 +1778,7 @@ LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`p
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_userpointlog`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `predicto_userpointlog` LEFT OUTER JOIN  `predicto_prediction`ON `predicto_userpointlog`.`prediction`=`predicto_prediction`.`id`");
         $this->load->view("json",$data);
     }
 

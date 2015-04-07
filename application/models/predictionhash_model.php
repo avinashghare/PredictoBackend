@@ -44,7 +44,6 @@ class predictionhash_model extends CI_Model
 FROM `predicto_predictionhash` 
 LEFT OUTER JOIN `predicto_prediction` ON `predicto_predictionhash`.`prediction`=`predicto_prediction`.`id`  ORDER BY `predicto_predictionhash`.`id` ASC")->result();
 		$return=array(
-		"" => ""
 		);
 		foreach($query as $row)
 		{

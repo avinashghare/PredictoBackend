@@ -30,6 +30,14 @@
         </section>
         <script>
             function drawtable(resultrow) {
+                if(resultrow.status==0)
+                {
+                    resultrow.status="Disable";
+                }
+                else if(resultrow.status==1)
+                {
+                    resultrow.status="Enable";
+                }
                 return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td>" + resultrow.order + "</td><td>" + resultrow.status + "</td><td>" + resultrow.endtime + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editpredictiongroup?id=');?>" + resultrow.id + "'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletepredictiongroup?id='); ?>" + resultrow.id + "'><i class='icon-trash '></i></a></td></tr>";
             }
             generatejquery("<?php echo $base_url;?>");

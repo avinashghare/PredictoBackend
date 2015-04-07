@@ -30,6 +30,14 @@
         </section>
         <script>
             function drawtable(resultrow) {
+                if(resultrow.for==0)
+                {
+                    resultrow.for="Share";
+                }
+                else if(resultrow.for==1)
+                {
+                    resultrow.for="Prediction";
+                }
                 return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.point + "</td><td>" + resultrow.for+"</td><td>" + resultrow.prediction + "</td><td>" + resultrow.shareid + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/edituserpointlog?id=');?>" + resultrow.id + "'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteuserpointlog?id='); ?>" + resultrow.id + "'><i class='icon-trash '></i></a></td></tr>";
             }
             generatejquery("<?php echo $base_url;?>");

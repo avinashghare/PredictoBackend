@@ -3,16 +3,30 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class usershare_model extends CI_Model
 {
-    public function create($user,$sharecontent,$total,$prediction)
+    public function create($user,$sharecontent,$total,$prediction,$predictionhash)
     {
         $data=array("user" => $user,"sharecontent" => $sharecontent,"total" => $total,"prediction" => $prediction);
         $query=$this->db->insert( "predicto_usershare", $data );
         $id=$this->db->insert_id();
+        foreach($predictionhash AS $key=>$value)
+        {
+            $this->usershare_model->createpredictionhashbyusershare($value,$id);
+        }
+    
         if(!$query)
         return  0;
         else
         return  $id;
     }
+    public function createpredictionhashbyusershare($value,$id)
+	{
+		$data  = array(
+			'predictionhash' => $value,
+			'usershare' => $id
+		);
+		$query=$this->db->insert( 'predicto_usersharehash', $data );
+		return  1;
+	}
     public function beforeedit($id)
     {
         $this->db->where("id",$id);
@@ -25,11 +39,16 @@ class usershare_model extends CI_Model
         $query=$this->db->get("predicto_usershare")->row();
         return $query;
     }
-    public function edit($id,$user,$sharecontent,$total,$prediction)
+    public function edit($id,$user,$sharecontent,$total,$prediction,$predictionhash)
     {
         $data=array("user" => $user,"sharecontent" => $sharecontent,"total" => $total,"prediction" => $prediction);
         $this->db->where( "id", $id );
         $query=$this->db->update( "predicto_usershare", $data );
+        $querydelete=$this->db->query("DELETE FROM `predicto_usersharehash` WHERE `usershare`='$id'");
+        foreach($predictionhash AS $key=>$value)
+        {
+            $this->usershare_model->createpredictionhashbyusershare($value,$id);
+        }
         return 1;
     }
     public function delete($id)
@@ -53,6 +72,24 @@ LEFT OUTER JOIN  `predicto_prediction`ON `predicto_usershare`.`prediction`=`pred
 		}
 		
 		return $return;
+	}
+    
+        
+     public function getusersharehashbyusershare($id)
+	{
+         $return=array();
+		$query=$this->db->query("SELECT `id`,`usershare`,`predictionhash` FROM `predicto_usersharehash`  WHERE `usershare`='$id'");
+        if($query->num_rows() > 0)
+        {
+            $query=$query->result();
+            foreach($query as $row)
+            {
+                $return[]=$row->predictionhash;
+            }
+        }
+         return $return;
+         
+		
 	}
 }
 ?>
