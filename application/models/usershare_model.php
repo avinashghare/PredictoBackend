@@ -40,13 +40,16 @@ class usershare_model extends CI_Model
     
     public function getusersharedropdown()
 	{
-		$query=$this->db->query("SELECT * FROM `predicto_usershare`  ORDER BY `id` ASC")->result();
+		$query=$this->db->query("SELECT `predicto_usershare`.`id`, `predicto_usershare`.`user`, `predicto_usershare`.`sharecontent`, `predicto_usershare`.`total`, `predicto_usershare`.`prediction` ,`predicto_prediction`.`name` AS `predictionname`,`user`.`name` AS `username`
+FROM `predicto_usershare`
+LEFT OUTER JOIN  `user`ON `predicto_usershare`.`user`=`user`.`id`
+LEFT OUTER JOIN  `predicto_prediction`ON `predicto_usershare`.`prediction`=`predicto_prediction`.`id`  ORDER BY `predicto_usershare`.`id` ASC")->result();
 		$return=array(
 		"" => ""
 		);
 		foreach($query as $row)
 		{
-			$return[$row->id]=$row->sharecontent;
+			$return[$row->id]=$row->username." ".$row->predictionname;
 		}
 		
 		return $return;

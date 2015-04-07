@@ -51,5 +51,15 @@ class prediction_model extends CI_Model
 		
 		return $return;
 	}
+    
+	public function getpredictionstatusdropdown()
+	{
+		$status= array(
+			 "0" => "Disable",
+			 "1" => "Enable",
+			);
+		return $status;
+	}
+	
 }
 ?>

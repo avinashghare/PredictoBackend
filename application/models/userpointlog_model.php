@@ -51,5 +51,14 @@ class userpointlog_model extends CI_Model
 		
 		return $return;
 	}
+    
+	public function getfordropdown()
+	{
+		$for= array(
+			 "0" => "Share",
+			 "1" => "Prediction",
+			);
+		return $for;
+	}
 }
 ?>

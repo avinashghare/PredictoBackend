@@ -40,13 +40,16 @@ class predictionteam_model extends CI_Model
     
     public function getpredictionteamdropdown()
 	{
-		$query=$this->db->query("SELECT * FROM `predicto_predictionteam`  ORDER BY `id` ASC")->result();
+		$query=$this->db->query("SELECT `predicto_predictionteam`.`id`, `predicto_predictionteam`.`prediction`, `predicto_predictionteam`.`teamgroup`,`predicto_predictionteam`. `order`,`predicto_prediction`.`name` AS `predictionname`,`predicto_teamgroup`.`name` AS `teamgroupname` 
+FROM `predicto_predictionteam` 
+LEFT OUTER JOIN  `predicto_prediction`ON `predicto_predictionteam`.`prediction`=`predicto_prediction`.`id`
+LEFT OUTER JOIN  `predicto_teamgroup`ON `predicto_predictionteam`.`teamgroup`=`predicto_teamgroup`.`id` ORDER BY `predicto_predictionteam`.`id` ASC")->result();
 		$return=array(
 		"" => ""
 		);
 		foreach($query as $row)
 		{
-			$return[$row->id]=$row->id;
+			$return[$row->id]=$row->predictionname."->".$row->teamgroupname;
 		}
 		
 		return $return;

@@ -40,13 +40,15 @@ class predictionhash_model extends CI_Model
     
     public function getpredictionhashdropdown()
 	{
-		$query=$this->db->query("SELECT * FROM `predicto_predictionhash`  ORDER BY `id` ASC")->result();
+		$query=$this->db->query("SELECT `predicto_predictionhash`.`id`, `predicto_predictionhash`.`prediction`, `predicto_predictionhash`.`hashtag`,`predicto_prediction`.`name`  AS `predictionname`
+FROM `predicto_predictionhash` 
+LEFT OUTER JOIN `predicto_prediction` ON `predicto_predictionhash`.`prediction`=`predicto_prediction`.`id`  ORDER BY `predicto_predictionhash`.`id` ASC")->result();
 		$return=array(
 		"" => ""
 		);
 		foreach($query as $row)
 		{
-			$return[$row->id]=$row->hashtag;
+			$return[$row->id]=$row->predictionname." ".$row->hashtag;
 		}
 		
 		return $return;
