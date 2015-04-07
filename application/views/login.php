@@ -8,7 +8,7 @@
     <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
     <link rel="shortcut icon" href="img/favicon.html">
 
-    <title><?php echo getconfig("projectname");?> | Login</title>
+    <title><?php echo "Predicto";?> | Login</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet">
